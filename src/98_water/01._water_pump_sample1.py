@@ -16,36 +16,48 @@ from ETboard.lib.pin_define import *
 led_red = Pin(D2)                              # 빨강 LED 핀 지정
 led_blue = Pin(D3)                             # 파랑 LED 핀 지정
 button_red = Pin(D6)                           # 빨강 버튼 핀 지정
-button_blue = Pin(D7)                          # 버튼 핀 지정
+button_blue = Pin(D7)                          # 파랑 버튼 핀 지정
+button_green = Pin(D8)                         # 녹색 버튼 핀 지정
 
 # setup
 def setup() :
     led_red.init(Pin.OUT)                      # 빨강 LED 출력모드 설정
     led_blue.init(Pin.OUT)                     # 파랑 LED 출력모드 설정
     button_red.init(Pin.IN)                    # 빨강 버튼 입력모드 설정하기
-    button_blue.init(Pin.IN)                   # 버튼 입력모드 설정하기
-    stop_left_pump()
+    button_blue.init(Pin.IN)                   # 파랑 버튼 입력모드 설정하기
+    button_green.init(Pin.IN)                  # 녹색 버튼 입력모드 설정하기
+    
+    stop_left_pump()                           # 초기 상태에는 펌프를 정지시키기
     
 # main loop
 def loop() :
     
-    # 빨강 버튼 상태 저장하기
+    # 버튼 상태 저장하기
     button_red_value = button_red.value()
     button_blue_value = button_blue.value()
+    button_green_value = button_green.value()
     
-    # 빨강 버튼으로 
+    # 빨강 버튼으로 펌프 작동시키기
     if button_red_value == 0:
         run_left_pump()
         time.sleep(0.3)
+        
+    # 파랑 버튼으로 펌프 멈추기    
     if button_blue_value == 0:
         stop_left_pump()
         time.sleep(0.3)
+        
+    # 녹색 버튼으로 펌프 1분간 작동시키기    
+    if button_blue_value == 0:
+        run_left_pump()
+        time.sleep(60)        
     
-    
+# run_left_pump    
 def run_left_pump():
     led_red.value(HIGH)                        # 빨강 LED 켜기
     led_blue.value(LOW)                        # 파랑 LED 끄기
-    
+
+# run_left_pump
 def stop_left_pump():
     led_red.value(LOW)                         # 빨강 LED 끄기
     led_blue.value(LOW)                        # 파랑 LED 끄기    
