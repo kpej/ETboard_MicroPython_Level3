@@ -65,7 +65,7 @@ def loop() :
     oled.setLine(2, 'temp: ' + str(sensor.temperature()) + 'c')    # OLED 모듈 2번 줄에 저장
     oled.setLine(3, 'humi: ' + str(sensor.humidity()) + '%')       # OLED 모듈 3번 줄에 저장
     oled.display()                    # 저장된 내용을 oled 에 보여줌
-    time.sleep(1)       
+    time.sleep(0.3)       
     
     
 # run_humidifier    
