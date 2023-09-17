@@ -23,6 +23,7 @@ button_green = Pin(D8)                         # 녹색 버튼 핀 지정
 
 sensor = dht.DHT11(Pin(D9))                    # 온습도(DHT11) 센서 핀 지정
 oled = oled_u8g2()
+pre_time = time.ticks_ms()
 
 # setup
 def setup() :
@@ -57,15 +58,12 @@ def loop() :
         run_humidifier()
         time.sleep(10)
         stop_humidifier()
-        
-    sensor.measure()                  # 온습도 센서 값 측정
-    print(sensor.temperature(),       # 온도 값 출력
-          sensor.humidity())          # 습도 값 출력
-    oled.setLine(1, 'DHT11 sensor')   # OLED 모듈 1번 줄에 저장
-    oled.setLine(2, 'temp: ' + str(sensor.temperature()) + 'c')    # OLED 모듈 2번 줄에 저장
-    oled.setLine(3, 'humi: ' + str(sensor.humidity()) + '%')       # OLED 모듈 3번 줄에 저장
-    oled.display()                    # 저장된 내용을 oled 에 보여줌
-    time.sleep(0.3)       
+    
+    # 온습도 표시
+    sensor_dht()
+    
+    # 딜레이
+    time.sleep(0.001)       
     
     
 # run_humidifier    
@@ -76,7 +74,23 @@ def run_humidifier():
 # run_humidifier
 def stop_humidifier():
     led_red.value(LOW)                         # 빨강 LED 끄기
-    led_blue.value(LOW)                        # 파랑 LED 끄기    
+    led_blue.value(LOW)                        # 파랑 LED 끄기
+    
+# dht11
+def sensor_dht():
+    global pre_time
+    cur_time = time.ticks_ms()
+    if (cur_time - pre_time <= 2000):
+        return    
+    
+    pre_time = cur_time
+    sensor.measure()                           # 온습도 센서 값 측정
+    print(sensor.temperature(),                # 온도 값 출력
+          sensor.humidity())                   # 습도 값 출력
+    oled.setLine(1, 'DHT11 sensor')            # OLED 모듈 1번 줄에 저장
+    oled.setLine(2, 'temp: ' + str(sensor.temperature()) + 'c')    # OLED 모듈 2번 줄에 저장
+    oled.setLine(3, 'humi: ' + str(sensor.humidity()) + '%')       # OLED 모듈 3번 줄에 저장
+    oled.display()                             # 저장된 내용을 oled 에 보여줌    
 
 
 if __name__ == "__main__" :
