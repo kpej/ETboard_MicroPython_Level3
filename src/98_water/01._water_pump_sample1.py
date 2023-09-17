@@ -47,10 +47,10 @@ def loop() :
         stop_left_pump()
         time.sleep(0.3)
         
-    # 녹색 버튼으로 펌프 1분간 작동시키기    
+    # 녹색 버튼으로 펌프 10초간 작동시키기    
     if button_blue_value == 0:
         run_left_pump()
-        time.sleep(60)        
+        time.sleep(10)        
     
 # run_left_pump    
 def run_left_pump():
