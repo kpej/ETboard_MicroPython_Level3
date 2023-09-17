@@ -103,6 +103,8 @@ def off_neopixel():
 
 # dht11
 def sensor_dht():
+    return
+
     global pre_time
     cur_time = time.ticks_ms()
     if (cur_time - pre_time <= 2000):
