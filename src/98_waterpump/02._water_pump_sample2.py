@@ -17,6 +17,7 @@ led_red = Pin(D2)                              # 빨강 LED 핀 지정
 led_blue = Pin(D3)                             # 파랑 LED 핀 지정
 led_green = Pin(D4)                              # 빨강 LED 핀 지정
 led_yellow = Pin(D5)                             # 파랑 LED 핀 지정
+led_operation = Pin(5)                             # 파랑 LED 핀 지정
 
 button_red = Pin(D6)                           # 빨강 버튼 핀 지정
 button_blue = Pin(D7)                          # 파랑 버튼 핀 지정
@@ -29,6 +30,8 @@ def setup():
     led_blue.init(Pin.OUT)                     # 파랑 LED 출력모드 설정
     led_green.init(Pin.OUT)                      # 빨강 LED 출력모드 설정
     led_yellow.init(Pin.OUT)                     # 파랑 LED 출력모드 설정
+    led_operation.init(Pin.OUT)                     # 파랑 LED 출력모드 설정
+    fast_blink()
     
     button_red.init(Pin.IN)                    # 빨강 버튼 입력모드 설정하기
     button_blue.init(Pin.IN)                   # 파랑 버튼 입력모드 설정하기
@@ -36,6 +39,7 @@ def setup():
     button_yellow.init(Pin.IN)                  # 녹색 버튼 입력모드 설정하기
     
     stop_left_pump()                           # 초기 상태에는 펌프를 정지시키기
+    stop_right_pump()                           # 초기 상태에는 펌프를 정지시키기
     
 # main loop
 def loop() :
@@ -64,7 +68,7 @@ def loop() :
     # 녹색 버튼으로 펌프 10초간 작동시키기    
     if button_yellow_value == 0:
         stop_right_pump()
-        time.sleep(10)           
+        time.sleep(0.3)           
     
 # run_left_pump    
 def run_left_pump():
@@ -84,7 +88,15 @@ def run_right_pump():
 # run_right_pump
 def stop_right_pump():
     led_green.value(LOW)                         # 빨강 LED 끄기
-    led_yellow.value(LOW)                        # 파랑 LED 끄기      
+    led_yellow.value(LOW)                        # 파랑 LED 끄기
+    
+# fast_blink
+def fast_blink():
+    for i in range(10):
+        led_operation.value(HIGH)                         # 빨강 LED 끄기
+        time.sleep(0.05)
+        led_operation.value(LOW)                        # 파랑 LED 끄기
+        time.sleep(0.05)
 
 
 if __name__ == "__main__" :
