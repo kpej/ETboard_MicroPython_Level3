@@ -2,6 +2,7 @@ import machine
 from machine import Pin, ADC, SoftI2C
 from ETboard.lib.OLED_U8G2 import *
 from ETboard.lib.pin_define import *
+import neopixel
 
 import time
 
@@ -12,6 +13,10 @@ buzzer = Pin(D6)                    # 부저 핀 지정
 button_yellow = Pin(D9)                       # 노랑 버튼 핀 지정
 button_blue = Pin(D7)                         # 파랑 버튼 핀 지정
 button_green = Pin(D8)                        # 초록 버튼 핀 지정
+
+PinPiR = Pin(D3)
+
+np = neopixel.NeoPixel(Pin(D2, Pin.OUT), 12) # 네오픽셀의 핀을 D2로 지정하고 12개의 LED를 초기화
 
 button_blue_value = 0                         # 파랑 버튼의 상태
 button_blue_old_value = 1                     # 파랑 버튼의 이전 상태
@@ -75,16 +80,38 @@ def alarm_setup():
         oled.display()
     
 def alarm_action():
+    global button_green_value, button_green_old_value
+
+    button_green_value = button_green.value()
+    button_green_old_value = button_green_value
+
     oled.clear()
     
     oled.setLine(1, "alarm action")
     
     oled.display()
     
-    for i in range(10):    
-        button_yellow_old_value = button_yellow_value
+    while True:
+        button_green_value = button_green.value()
         
-        for j in range(80) :
+        if PinPiR.value() == HIGH:
+            for i in range(0, 12):
+                np[i] = (255, 0, 0)
+                np.write()
+        else:
+            for i in range(0, 12):
+                np[i] = (0, 0, 0)
+                np.write()
+
+        if button_green_value == 0 and button_green_old_value == 1:
+            for i in range(0, 12):
+                np[i] = (0, 0, 0)
+                np.write()
+            break
+        
+        button_green_old_value = button_green_value
+        
+        for i in range(80) :
             buzzer.value(HIGH)
             time.sleep(0.001)
             buzzer.value(LOW)
@@ -136,15 +163,15 @@ def setup():
     button_blue.init(Pin.IN)
     button_green.init(Pin.IN)
 
+    PinPiR = Pin(Pin.IN)
 
 def loop():
     global alram_time, button_yellow_value, button_yellow_old_value
 
     button_yellow_value = button_yellow.value()
-    
+
     display_clock()
 
-    
     if button_yellow_value == 0 and button_yellow_old_value == 1:
         alarm_setup()
 
