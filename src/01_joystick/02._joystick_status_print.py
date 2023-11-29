@@ -4,7 +4,7 @@
 # Author       : 박은정
 # Created Date : 2023.08.28
 # Reference    :
-# Modified     :
+# Modified     : 2023.11.28 : PEJ : 주석 수정
 # ******************************************************************************************
 
 
@@ -14,7 +14,7 @@ from machine import ADC, Pin
 from ETboard.lib.pin_define import *
 
 
-# variable
+# global variable
 Pin_VRx = ADC(Pin(A5))                   # 조이스틱 VRx(X축) 핀 지정
 Pin_VRy = ADC(Pin(A4))                   # 조이스틱 VRy(Y축) 핀 지정
 
@@ -32,7 +32,7 @@ max_value = joystick_mid_max_value + 500 # 조이스틱 남, 동 값의 범위: 
 def setup():
     Pin_VRx.atten(ADC.ATTN_11DB)         # 조이스틱 VRx(X축) 핀 입력 모드 설정
     Pin_VRy.atten(ADC.ATTN_11DB)         # 조이스틱 VRy(Y축) 핀 입력 모드 설정
-    
+
     Pin_SW.init(Pin.IN, Pin.PULL_UP)     # 조이스틱 버튼 입력 모드 설정
 
 
@@ -70,6 +70,8 @@ def loop():
 
     time.sleep(0.1)                      # 0.1초 대기 
 
+
+# start point
 if __name__ == '__main__':
     setup()
     while True:

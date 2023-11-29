@@ -4,7 +4,7 @@
 # Author       : 박은정
 # Created Date : 2023.9.12
 # Reference    :
-# Modified     : 
+# Modified     : 2023.11.28 : PEJ : 주석 수정
 # ******************************************************************************************
 
 
@@ -15,16 +15,16 @@ from ETboard.lib.pin_define import *
 import neopixel
 
 
-# variable
+# global variable
 np = neopixel.NeoPixel(Pin(D2, Pin.OUT), 12) # 네오픽셀의 핀을 D2로 지정하고 12개의 LED를 초기화
 
 
-#setup
+# setup
 def setup():                                 # pass를 사용하여 건너뜀
     pass
 
 
-#loop
+# loop
 def loop():
     np[0] = (255, 0, 0)                      # 네오픽셀[0]의 색상을 빨강으로 지정
     np.write()                               # 네오픽셀 출력
@@ -124,6 +124,7 @@ def loop():
     time.sleep(1)                            # 1초간 대기
 
 
+# start point
 if __name__ == '__main__':
     setup()
     while True:

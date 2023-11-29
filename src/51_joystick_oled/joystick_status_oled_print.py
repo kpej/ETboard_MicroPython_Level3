@@ -1,10 +1,10 @@
 # ******************************************************************************************
-# FileName     : 03._joystick_status_oled_print.py
+# FileName     : joystick_status_oled_print
 # Description  : 조이스틱 상태를 OLED에 출력해 보기
 # Author       : 박은정
 # Created Date : 2023.08.28
 # Reference    :
-# Modified     :
+# Modified     : 2023.11.28 : PEJ : 주석 수정
 # ******************************************************************************************
 
 
@@ -15,13 +15,13 @@ from ETboard.lib.pin_define import *
 from ETboard.lib.OLED_U8G2 import *
 
 
-# variable
+# global variable
 Pin_VRx = ADC(Pin(A5))                   # 조이스틱 VRx(X축) 핀 지정
 Pin_VRy = ADC(Pin(A4))                   # 조이스틱 VRy(Y축) 핀 지정
 
 Pin_SW = Pin(D6)                         # 조이스틱 버튼 핀 지정
 
-oled = oled_u8g2()
+oled = oled_u8g2()                       # OLED 선언
 
 # 조이스틱 방향을 구하기 위한 변수 선언
 # 조이스틱의 방향이 정확하지 않을 시 해당 변수의 값을 수정하세요.
@@ -31,7 +31,7 @@ min_value = joystick_mid_min_value - 500 # 조이스틱 북, 서 값의 범위: 
 max_value = joystick_mid_max_value + 500 # 조이스틱 남, 동 값의 범위: 2000 + 500 ~ 4095
 
 
-#setup
+# setup
 def setup():
     Pin_VRx.atten(ADC.ATTN_11DB)         # 조이스틱 VRx(X축) 핀 입력 모드 설정
     Pin_VRy.atten(ADC.ATTN_11DB)         # 조이스틱 VRy(Y축) 핀 입력 모드 설정
@@ -39,7 +39,7 @@ def setup():
     Pin_SW.init(Pin.IN, Pin.PULL_UP)     # 조이스틱 버튼 입력 모드 설정
 
 
-#loop
+# loop
 def loop():
     x_value = Pin_VRx.read()             # x 좌표값을 읽어옴
     y_value = Pin_VRy.read()             # y 좌표값을 읽어옴
@@ -77,6 +77,7 @@ def loop():
     time.sleep(0.1)                      # 0.1초 대기
 
 
+# start point
 if __name__ == "__main__":
     setup()
     while True:
