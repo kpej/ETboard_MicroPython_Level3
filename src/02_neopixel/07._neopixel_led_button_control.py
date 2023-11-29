@@ -14,6 +14,7 @@ from ETboard.lib.pin_define import *
 import neopixel
 
 
+# global variable
 np = neopixel.NeoPixel(Pin(D2, Pin.OUT), 12)   # 네오픽셀의 핀을 D2로 지정하고 12개의 LED를 초기화
 
 button_red = Pin(D6)                           # 빨강 버튼의 핀 지정
